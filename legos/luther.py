@@ -6,6 +6,10 @@ logger = logging.getLogger(__name__)
 
 
 class Luther(Lego):
+    def __init__(self, baseplate, lock, api_key):
+        super().__init__(baseplate, lock)
+        self.api_key = api_key
+
     def listening_for(self, message):
         if message['text'] is not None:
             try:
@@ -42,8 +46,8 @@ class Luther(Lego):
 
     def _get_insult(self):
         df_url = 'https://api.drewpearce.tech/api/v2/random_luther'
-        K = 'd8209ab55fbafeb4e13d4bde17532613d04ce119601077ae931f96df6e84653b'
-        request_url = '{}?api_key={}'.format(df_url, K)
+        api_key = self.api_key
+        request_url = '{}?api_key={}'.format(df_url, api_key)
         insult_request = requests.get(request_url)
         if insult_request.status_code == requests.codes.ok:
             insult = insult_request.text
